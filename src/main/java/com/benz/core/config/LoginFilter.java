@@ -8,6 +8,7 @@ import com.benz.core.domain.cache.AuthUser;
 import com.benz.core.common.utils.*;
 import com.benz.core.common.utils.entities.LoginUser;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -35,16 +36,13 @@ public class LoginFilter implements Filter {
 
 
     // 免登录列表
-    @Value("${login.exclude.url.list:login}")
+    @Value("${login.exclude.url.list}")
     private String                   loginExcludeUrlList;
 
-    // 权限
-    @Value("${permission.exclude.url.list:}")
-    private String                   permissionExcludeUrlList;
 
     // 免登录链接，登录情况下强制跳转
-    @Value("${exclude.login.redirect.list:}")
-    private String                   excludeLoginRedirectList;
+    @Value("${login.exclude.redirect.list}")
+    private String                   loginExcludeRedirectList;
 
     @Value("${spring.application.name}")
     private String                   appName;
@@ -59,11 +57,11 @@ public class LoginFilter implements Filter {
         HttpServletRequest servletRequest = (HttpServletRequest) request;
         try {
             String requestUrl = RequestUtil.getUrl((HttpServletRequest) request);
-            log.info("LoginFilter", requestUrl, servletRequest.getRequestURI(), servletRequest
+            log.info("LoginFilter -url- {} -uri- {} -requestUrl- {} -servletPath- {} ", requestUrl, servletRequest.getRequestURI(), servletRequest
                 .getRequestURL().toString(), servletRequest.getServletPath());
             TraceUtil.setClientIP(RequestUtil.getClientIp(servletRequest));
             TraceUtil.setCorrelationID(UUID.randomUUID().toString());
-            log.info("loginExcludeUrlList--", loginExcludeUrlList);
+            log.info("loginExcludeUrlList-- {}", loginExcludeUrlList);
             // 需要登录标识
             boolean needLogin = true;
             // 静态资源及页面访问不拦截
@@ -75,7 +73,7 @@ public class LoginFilter implements Filter {
                        || requestUrl.contains("api-docs")) {
                 needLogin = false;
             }
-            log.info("needLogin--", needLogin);needLogin
+            log.info("needLogin-- {}", needLogin);
 
             String loginToken = CookieUtil.getCookie(servletRequest,
                 OperatorConstants.COOKIE_LOGIN_TOKEN);
@@ -85,15 +83,8 @@ public class LoginFilter implements Filter {
                 Assert.hasText(loginToken, OperatorConstants.TOKEN_EXPIRED);
                 // 校验服务端是否已登录
                 checkLoginToken(loginToken, servletRequest, (HttpServletResponse) response);
-                // 校验菜单权限：权限过滤&非页面
-//                if (!permissionExcludeUrlList.contains(requestUrl)
-//                    && !requestUrl.matches(".*html$")) {
-//                    // 校验访问链接权限
-//                    checkPermissions(requestUrl);
-//                }
-                // 发送访问日志消息
                 sendVisitLogMsg(requestUrl);
-            } else if (!"/".equals(requestUrl) && excludeLoginRedirectList.contains(requestUrl)) {
+            } else if (!"/".equals(requestUrl) && loginExcludeRedirectList.contains(requestUrl)) {
                 if (StringUtils.hasText(loginToken)) {
                     // 免登录页面，在已登录的情况下，跳转首页
                 }
@@ -122,7 +113,7 @@ public class LoginFilter implements Filter {
     /**
      * 判断服务端是否已登录
      * 
-     * @param loginToken
+     * @param loginToken loginToken
      * @return
      */
     private void checkLoginToken(String loginToken, HttpServletRequest request,
@@ -132,21 +123,24 @@ public class LoginFilter implements Filter {
         Assert.notNull(authUser, RetCodeEnum.TOKEN_EXPIRED.name());
         // 已登录，设置登录信息
         LoginUser loginUser = new LoginUser();
-//        loginUser.setLoginToken();
-//        loginUser.setUserId();
-//        loginUser.setUserInfo();
+        BeanUtils.copyProperties(authUser,loginUser);
         // 设置登录用户上下文
         UserContextUtil.setUserContext(loginUser);
     }
 
     /**
      * 查询单点登录状态
+     * TODO 先写死哈哈
      * 
      * @param loginToken
      * @return
      */
     private AuthUser checkLoginStatus(String loginToken) {
-        return null;
+        AuthUser authUser = new AuthUser();
+        authUser.setLoginToken(loginToken);
+        authUser.setUserId("hjl");
+        authUser.setUserInfo("{\"name\":\"何嘉良\"}");
+        return authUser;
     }
 
     /**

@@ -1,5 +1,9 @@
 package com.benz.core.domain.cache;
 
+import lombok.Data;
+
+import java.io.Serializable;
+
 /**
  * 用户登陆信息
  *
@@ -8,7 +12,8 @@ package com.benz.core.domain.cache;
  * @Date 2019/12/2
  * @Version 1.0
  */
-public class AuthUser {
+@Data
+public class AuthUser  implements Serializable {
     /**
      *
      */

@@ -60,3 +60,9 @@ mybatis:
   type-handlers-package: com.benz.core.config
 server:
   port: 8083
+login:
+  exclude:
+    url:
+      list:  /login/dologin,/login/verify,/register/apply,/register/verify,/register/operatorPasswordSet,/pages/index.html,/pages/404.html,/pages/error.html,/pages/login.html,/pages/register/apply.html,/pages/register/set-password.html,/receiveNotify,/pages/password-forget/apply.html,/pages/password-forget/confirm.html,/register/registerEmailSetApply,/user/findPwdApply,/user/findPwdVerify,/user/findPwdSmsApply,/user/findPwdSmsVerify,/pages/password-forget/result.html,pages/account/register/apply.html,/pages/account/register/set-password.html,/pages/auth/login.html,/pages/exception/404.html,
+    redirect:
+      list: /pages/register/apply.html,/pages/register/set-password.html,/pages/index.html,/pages/login.html
