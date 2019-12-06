@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: benz
+  datasource:
+    name: 测试库
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/accp_payment?serverTimezone=UTC&characterEncoding=utf-8
+    username: accp_payment
+    password: accp_payment
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      aop-patterns: com.benz.core.*
+      async-close-connection-enable: true
+      filter:
+        stat:
+          db-type: mysql
+          log-slow-sql: true
+          slow-sql-millis: 3000
+      initial-size: 30
+      max-active: 150
+      max-pool-prepared-statement-per-connection-size: 5
+      max-wait: 1234
+      min-evictable-idle-time-millis: 300001
+      min-idle: 2
+      pool-prepared-statements: true
+      test-on-borrow: true
+      test-on-return: true
+      test-while-idle: true
+      time-between-eviction-runs-millis: 10000
+      validation-query: select 1
+      validation-query-timeout: 1
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: '*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*'
+        session-stat-enable: true
+        session-stat-max-count: 10
+        principal-session-name: null
+        principal-cookie-name: null
+        profile-enable: null
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: false
+        login-username: admin
+        login-password: admin
+        allow: 192.168.1.110,127.0.0.1
+        deny: 192.168.16.111
+  thymeleaf:
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    cache: false
+    servlet:
+      content-type: text/html
+  mvc:
+    static-path-pattern: /**
+mybatis:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  type-handlers-package: com.benz.core.config
+server:
+  port: 8083
