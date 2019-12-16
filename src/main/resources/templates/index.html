@@ -1,48 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Bootstrap 实例</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/owner/bmw.css">
-    <script src="js/core/jquery.3.2.1.min.js"></script>
-    <script src="js/core/popper.min.js"></script>
-
-    <script src="js/core/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{css/owner/bmw.css}">
+    <script th:src="@{js/core/jquery.3.2.1.min.js}"></script>
+    <script th:src="@{js/core/popper.min.js}"></script>
+    <script th:src="@{js/core/bootstrap.js}"></script>
 </head>
 <body>
 <div class="page-header ">
     <div class="page-header-image orange" style="background-image: url('img/background/bg8.jpg')"></div>
     <div class="container d-flex justify-content-center align-items-center">
-        <div class="w-25 ">
-            <img src="img/now-logo.png" class="py-1 w65" alt="">
-            <form class="form" method="" action="">
-                <div class="content">
-                    <div class="input-group py-1 ">
-                        <input type="text" class="form-control bg_1 radius-1"  placeholder="First Name...">
-                    </div>
-                    <div class="input-group py-1 ">
-                        <input type="password" class="form-control bg_1 radius-1"/>
-                    </div>
-                </div>
-                <div class="py-5 text-center ">
-                    <button type="button" class="btn btn-primary btn-lg btn-block radius-1">
-                        登陆
-                    </button>
-                </div>
-                <div class="float-left">
-                    <h6>
-                        <a href="#pablo" class="link-white">注册</a>
-                    </h6>
-                </div>
-                <div class="float-right">
-                    <h6>
-                        <a href="#pablo" class="link-white">帮助?</a>
-                    </h6>
-                </div>
-            </form>
-        </div>
+        index
     </div>
 </div>
 </body>

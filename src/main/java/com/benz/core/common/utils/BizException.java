@@ -29,7 +29,7 @@ public class BizException extends RuntimeException {
 
     public BizException(RetCodeEnum resultCode) {
         super();
-        this.code = resultCode.name();
+        this.code = resultCode.getCode();
         this.msg = resultCode.getDesc();
     }
 
@@ -41,7 +41,7 @@ public class BizException extends RuntimeException {
 
     public BizException(RetCodeEnum resultCode, String detailMessage) {
         super();
-        this.code = resultCode.name();
+        this.code = resultCode.getCode();
         this.msg = resultCode.getDesc();
         this.detailMessage = detailMessage;
     }

@@ -49,11 +49,11 @@ public class CookieUtil {
         }
         cookie.setHttpOnly(true);
         // 线上环境设置启用安全域名校验
-        Environment environment = ApplicationContextUtils.getEnvironment();
-        String profileActive = environment.getRequiredProperty("spring.profiles.active");
-        if (StringUtils.hasText(profileActive) && profileActive.equalsIgnoreCase("online")) {
-            cookie.setSecure(true);
-        }
+//        Environment environment = ApplicationContextUtils.getEnvironment();
+//        String profileActive = environment.getRequiredProperty("spring.profiles.active");
+//        if (StringUtils.hasText(profileActive) && profileActive.equalsIgnoreCase("online")) {
+//            cookie.setSecure(true);
+//        }
         cookie.setPath(path);
         response.addCookie(cookie);
     }

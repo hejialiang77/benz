@@ -32,11 +32,19 @@ public class BasePageController {
         view.setViewName("index");
         return view;
     }
+
     @GetMapping(value = "/pages/home.html")
     public ModelAndView home(HttpServletRequest request) {
         ModelAndView view = new ModelAndView();
         view.setViewName("/pages/home");
         // 获取首页数据
+        return view;
+    }
+
+    @GetMapping("/{pageName}.html")
+    public ModelAndView toPage(@PathVariable("pageName") String pageName, HttpServletRequest request) {
+        String url = "/" + pageName;
+        ModelAndView view = new ModelAndView(url);
         return view;
     }
 

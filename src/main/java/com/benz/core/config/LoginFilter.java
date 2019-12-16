@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.benz.core.common.constants.OperatorConstants;
 import com.benz.core.common.constants.enums.RetCodeEnum;
-import com.benz.core.domain.cache.AuthUser;
 import com.benz.core.common.utils.*;
 import com.benz.core.common.utils.entities.LoginUser;
+import com.benz.core.domain.cache.AuthUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,7 +48,7 @@ public class LoginFilter implements Filter {
     private String                   appName;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
@@ -65,7 +65,7 @@ public class LoginFilter implements Filter {
             // 需要登录标识
             boolean needLogin = true;
             // 静态资源及页面访问不拦截
-            if (requestUrl.matches(".*\\.(jpg|swf|png|gif|ico|svg|js|css|xls|xlsx|ttf|woff)$")) {
+            if (requestUrl.matches(".*\\.(jpg|swf|png|gif|ico|svg|js|css|map|xls|xlsx|ttf|woff)$")) {
                 needLogin = false;
             } else if (loginExcludeUrlList.contains(requestUrl)) {
                 needLogin = false;
@@ -114,7 +114,6 @@ public class LoginFilter implements Filter {
      * 判断服务端是否已登录
      * 
      * @param loginToken loginToken
-     * @return
      */
     private void checkLoginToken(String loginToken, HttpServletRequest request,
                                  HttpServletResponse response) {
@@ -132,8 +131,8 @@ public class LoginFilter implements Filter {
      * 查询单点登录状态
      * TODO 先写死哈哈
      * 
-     * @param loginToken
-     * @return
+     * @param loginToken loginToken
+     * @return authUser
      */
     private AuthUser checkLoginStatus(String loginToken) {
         AuthUser authUser = new AuthUser();
@@ -146,7 +145,7 @@ public class LoginFilter implements Filter {
     /**
      * 校验访问链接是否有权限
      * 
-     * @param requestUrl
+     * @param requestUrl requestUrl
      */
     private void checkPermissions(String requestUrl) {
         LoginUser loginUser = UserContextUtil.getUserContext();
@@ -163,8 +162,8 @@ public class LoginFilter implements Filter {
     /**
      * 跳转登陆页
      * 
-     * @param request
-     * @param response
+     * @param request request
+     * @param response response
      */
     private void redirectPage(HttpServletRequest request, HttpServletResponse response,
                               String code, String msg) {

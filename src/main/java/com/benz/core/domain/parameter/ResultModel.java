@@ -22,7 +22,7 @@ public class ResultModel<T> implements Serializable {
 
     public ResultModel(T data, RetCodeEnum retCodeEnum) {
         this.data = data;
-        this.code = retCodeEnum.name();
+        this.code = retCodeEnum.getCode();
         this.msg = retCodeEnum.getDesc();
     }
 

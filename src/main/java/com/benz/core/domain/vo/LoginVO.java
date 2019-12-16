@@ -15,6 +15,10 @@ import java.io.Serializable;
 @Data
 public class LoginVO implements Serializable {
 
+    String userName;
+
+    String password;
+
     String token;
 
 }
